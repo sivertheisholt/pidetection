@@ -22,12 +22,12 @@ import base64
 
 def detect_image(base64_image):
     # Parse user inputs
-    MODEL_NAME = "./custom_model_lite"
+    MODEL_NAME = "HttpTrigger1/custom_model_lite"
     GRAPH_NAME = "detect.tflite"
     LABELMAP_NAME = "labelmap.txt"
 
     min_conf_threshold = 0.5
-    use_TPU = True
+    use_TPU = False
 
     # Import TensorFlow libraries
     # If tflite_runtime is installed, import interpreter from tflite_runtime, else import from regular tensorflow
@@ -160,4 +160,10 @@ def detect_image(base64_image):
 
             detections.append([object_name, scores[i], xmin, ymin, xmax, ymax])
 
-    return base64.b64encode(image).decode()
+    cv2.imwrite("img.jpg", image)
+
+    # Read the image file and convert it to base64
+    with open("img.jpg", 'rb') as image_file:
+        base64_image = base64.b64encode(image_file.read()).decode()
+
+    return base64_image
