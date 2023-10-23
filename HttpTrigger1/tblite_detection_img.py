@@ -160,10 +160,10 @@ def detect_image(base64_image):
 
             detections.append([object_name, scores[i], xmin, ymin, xmax, ymax])
 
-    cv2.imwrite("img.jpg", image)
+    cv2.imwrite("./img.jpg", image)
 
     # Read the image file and convert it to base64
-    with open("img.jpg", 'rb') as image_file:
+    with open("./img.jpg", 'rb') as image_file:
         base64_image = base64.b64encode(image_file.read()).decode()
 
     return base64_image
