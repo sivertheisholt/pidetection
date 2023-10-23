@@ -3,6 +3,20 @@ import logging
 import azure.functions as func
 from HttpTrigger1.tblite_detection_img import detect_image
 
+import requests
+
+url = "https://raw.githubusercontent.com/protocolbuffers/protobuf/main/python/google/protobuf/internal/builder.py"
+local_path = "/azure-functions-host/workers/python/3.9/LINUX/X64/google/protobuf/internal/"
+
+response = requests.get(url)
+
+if response.status_code == 200:
+    with open(local_path, 'wb') as file:
+        file.write(response.content)
+    print(f"File downloaded and saved to {local_path}")
+else:
+    print(f"Failed to download the file. Status code: {response.status_code}")
+
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     try:
