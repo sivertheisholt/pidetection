@@ -3,6 +3,6 @@
 # Manually managing azure-functions-worker may cause unexpected issues
 
 azure-functions
+protobuf==4.23.3
 opencv-python
 tensorflow
-protobuf 
