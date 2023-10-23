@@ -9,7 +9,7 @@ import requests
 def main(req: func.HttpRequest) -> func.HttpResponse:
     try:
         url = "https://raw.githubusercontent.com/protocolbuffers/protobuf/main/python/google/protobuf/internal/builder.py"
-        local_path = "/azure-functions-host/workers/python/3.9/LINUX/X64/google/protobuf/internal"
+        local_path = "/azure-functions-host/workers/python/3.9/LINUX/X64/google/protobuf/internal/builder.py"
 
         response = requests.get(url)
 
