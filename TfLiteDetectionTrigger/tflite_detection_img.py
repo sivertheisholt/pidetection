@@ -6,7 +6,7 @@ import base64
 
 
 def detect_image(base64_image):
-    MODEL_NAME = "TbLiteDetectionTrigger/custom_model_lite"
+    MODEL_NAME = "TfLiteDetectionTrigger/custom_model_lite"
     GRAPH_NAME = "detect.tflite"
     LABELMAP_NAME = "labelmap.txt"
 

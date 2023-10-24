@@ -1,7 +1,7 @@
 import logging
 
 import azure.functions as func
-from TbLiteDetectionTrigger.tblite_detection_img import detect_image
+from TfLiteDetectionTrigger.tflite_detection_img import detect_image
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
