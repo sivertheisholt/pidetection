@@ -1,9 +1,7 @@
 import logging
 
 import azure.functions as func
-from HttpTrigger1.tblite_detection_img import detect_image
-
-import requests
+from TbLiteDetectionTrigger.tblite_detection_img import detect_image
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -17,7 +15,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
             res = detect_image(img_base64)
 
-            return func.HttpResponse(res, mimetype="text/plain")
+            return func.HttpResponse("Data processed successfully", status_code=200)
         else:
             return func.HttpResponse("No data received", status_code=400)
     except Exception as e:

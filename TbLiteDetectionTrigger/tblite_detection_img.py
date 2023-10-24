@@ -1,18 +1,3 @@
-######## Webcam Object Detection Using Tensorflow-trained Classifier #########
-#
-# Author: Evan Juras
-# Date: 11/11/22
-# Description:
-# This program uses a TensorFlow Lite object detection model to perform object
-# detection on an image or a folder full of images. It draws boxes and scores
-# around the objects of interest in each image.
-#
-# This code is based off the TensorFlow Lite image classification example at:
-# https://github.com/tensorflow/tensorflow/blob/master/tensorflow/lite/examples/python/label_image.py
-#
-# I added my own method of drawing boxes and labels using OpenCV.
-
-# Import packages
 import os
 import cv2
 import numpy as np
@@ -21,32 +6,18 @@ import base64
 
 
 def detect_image(base64_image):
-    # Parse user inputs
-    MODEL_NAME = "HttpTrigger1/custom_model_lite"
+    MODEL_NAME = "TbLiteDetectionTrigger/custom_model_lite"
     GRAPH_NAME = "detect.tflite"
     LABELMAP_NAME = "labelmap.txt"
 
     min_conf_threshold = 0.5
-    use_TPU = False
 
     # Import TensorFlow libraries
-    # If tflite_runtime is installed, import interpreter from tflite_runtime, else import from regular tensorflow
-    # If using Coral Edge TPU, import the load_delegate library
     pkg = importlib.util.find_spec('tflite_runtime')
     if pkg:
         from tflite_runtime.interpreter import Interpreter
-        if use_TPU:
-            from tflite_runtime.interpreter import load_delegate
     else:
         from tensorflow.lite.python.interpreter import Interpreter
-        if use_TPU:
-            from tensorflow.lite.python.interpreter import load_delegate
-
-    # If using Edge TPU, assign filename for Edge TPU model
-    if use_TPU:
-        # If user has specified the name of the .tflite file, use that name, otherwise use default 'edgetpu.tflite'
-        if (GRAPH_NAME == 'detect.tflite'):
-            GRAPH_NAME = 'edgetpu.tflite'
 
     # Get path to current working directory
     CWD_PATH = os.getcwd()
@@ -69,12 +40,7 @@ def detect_image(base64_image):
 
     # Load the Tensorflow Lite model.
     # If using Edge TPU, use special load_delegate argument
-    if use_TPU:
-        interpreter = Interpreter(model_path=PATH_TO_CKPT,
-                                  experimental_delegates=[load_delegate('libedgetpu.so.1.0')])
-        print(PATH_TO_CKPT)
-    else:
-        interpreter = Interpreter(model_path=PATH_TO_CKPT)
+    interpreter = Interpreter(model_path=PATH_TO_CKPT)
 
     interpreter.allocate_tensors()
 
@@ -167,4 +133,4 @@ def detect_image(base64_image):
     else:
         base64_image = None
 
-    return base64_image
+    return {"base64": base64_image, "detections": len(detections)}
